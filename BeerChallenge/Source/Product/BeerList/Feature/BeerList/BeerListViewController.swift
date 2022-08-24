@@ -40,9 +40,9 @@ class BeerListViewController: UIViewController {
     }
     
     func configGestureRecognizer(){
-        let tapRegister = UITapGestureRecognizer(target: self, action: #selector(navigateBeerDetail))
-        tapRegister.numberOfTapsRequired = 1
-        cell.view.addGestureRecognizer(tapRegister)
+        let tapBeerCell = UITapGestureRecognizer(target: self, action: #selector(navigateBeerDetail))
+        tapBeerCell.numberOfTapsRequired = 1
+        cell.view.addGestureRecognizer(tapBeerCell)
     }
     
     @objc func navigateBeerDetail(indexPath: IndexPath) {
