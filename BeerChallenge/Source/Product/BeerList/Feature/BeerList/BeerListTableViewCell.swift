@@ -12,6 +12,12 @@ class BeerListTableViewCell: UITableViewCell {
 
     static let identifier = "BeerListTableViewCell"
     
+    lazy var view: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     lazy var imageCellView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -31,8 +37,9 @@ class BeerListTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addSubview(imageCellView)
-        addSubview(imageTitle)
+        addSubview(view)
+        view.addSubview(imageCellView)
+        view.addSubview(imageTitle)
         setupConstraints()
         selectionStyle = .none
     }
@@ -49,6 +56,12 @@ class BeerListTableViewCell: UITableViewCell {
     
     func setupConstraints(){
         NSLayoutConstraint.activate([
+            
+            view.topAnchor.constraint(equalTo: self.topAnchor),
+            view.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            view.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
             imageCellView.centerYAnchor.constraint(equalTo: centerYAnchor),
             imageCellView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             imageCellView.heightAnchor.constraint(equalToConstant: 80),

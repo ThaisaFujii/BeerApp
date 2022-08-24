@@ -14,12 +14,12 @@ protocol BeerListViewModelDelegate: AnyObject {
 
 class BeerListViewModel {
     private weak var delegate: BeerListViewModelDelegate?
-    
+    let url = "https://api.punkapi.com/v2/beers"
     public func delegate(delegate:BeerListViewModelDelegate){
         self.delegate = delegate
     }
     let urlService = BeerService()
-    let url = "https://api.punkapi.com/v2/beers"
+  
     var beerList: [BeerElement] = []
     
     public func getBeerRequest(){

@@ -18,6 +18,7 @@ class BeerDetailViewModel {
     public func delegate(delegate: BeerDetailViewModelDelegate){
         self.delegate = delegate
     }
+    
     let urlService = BeerService()
     let url = "https://api.punkapi.com/v2/beers"
     var beerDetail: [BeerElement] = []

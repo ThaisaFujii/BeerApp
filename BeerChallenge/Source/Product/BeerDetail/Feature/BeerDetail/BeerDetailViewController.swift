@@ -11,7 +11,6 @@ class BeerDetailViewController: UIViewController {
     let viewModel = BeerDetailViewModel()
     var beerDetailView: BeerDetailView?
     var beerID: Int = 0
-//    var beername = ""
     
     override func loadView() {
         beerDetailView = BeerDetailView()

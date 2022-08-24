@@ -7,9 +7,19 @@
 
 import UIKit
 
+protocol BeerListCoordinatorProtocol: AnyObject {
+    func navigateToBeerDetail(id:Int)
+}
+
 class BeerListViewController: UIViewController {
     let viewModel: BeerListViewModel = BeerListViewModel()
     var beerListView: BeerListView?
+    var delegate: BeerListCoordinatorProtocol?
+    var cell: BeerListTableViewCell = BeerListTableViewCell()
+    
+    func delegate(delegate:BeerListCoordinatorProtocol){
+        self.delegate = delegate
+    }
     
     override func loadView() {
         beerListView = BeerListView()
@@ -21,10 +31,22 @@ class BeerListViewController: UIViewController {
         beerListView?.configTableViewProtocols(delegate: self, dataSource: self)
         viewModel.getBeerRequest()
         viewModel.delegate(delegate: self)
+        beerListView?.backgroundColor = .white
+        configGestureRecognizer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    func configGestureRecognizer(){
+        let tapRegister = UITapGestureRecognizer(target: self, action: #selector(navigateBeerDetail))
+        tapRegister.numberOfTapsRequired = 1
+        cell.view.addGestureRecognizer(tapRegister)
+    }
+    
+    @objc func navigateBeerDetail(indexPath: IndexPath) {
+        delegate?.navigateToBeerDetail(id: indexPath.row + 1)
     }
     
 }
@@ -32,11 +54,8 @@ class BeerListViewController: UIViewController {
 extension BeerListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc: BeerDetailViewController = BeerDetailViewController()
-        vc.beerID = indexPath.row + 1
-        navigationController?.pushViewController(vc, animated: true)
+       navigateBeerDetail(indexPath: indexPath)
     }
-    
 }
 
 extension BeerListViewController: UITableViewDataSource {
@@ -63,6 +82,12 @@ extension BeerListViewController: BeerListViewModelDelegate {
     }
     
     func error() {
-        print("Deu ruim")
+        let alert = UIAlertController(title: "Ops!", message: "Algo deu errado", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Tente novamente", style: .default))
+        DispatchQueue.main.async {
+            self.present(alert, animated: true) {
+                self.viewModel.getBeerRequest()
+            }
+        }
     }
 }

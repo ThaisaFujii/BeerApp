@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BeerListCoordinator {
+class BeerListCoordinator: BeerListCoordinatorProtocol {
     private var navigationController: UINavigationController
     
     init(navigationController: UINavigationController) {
@@ -16,6 +16,13 @@ class BeerListCoordinator {
     
     func start() {
         let beerListViewController = BeerListViewController()
+        beerListViewController.delegate(delegate: self)
         navigationController.pushViewController(beerListViewController, animated: true)
+    }
+    
+    func navigateToBeerDetail(id:Int) {
+        let beerDetailViewController = BeerDetailViewController()
+        beerDetailViewController.beerID = id
+        navigationController.pushViewController(beerDetailViewController, animated: true)
     }
 }
